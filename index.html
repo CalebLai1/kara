@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Prom Cookin'! For Kara 💕</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@700;800;900&family=Chewy&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink-hot: #ff3d7f;
+    --pink: #ff69b4;
+    --pink-light: #ffb8cc;
+    --pink-pale: #ffe4ec;
+    --cream: #fff6ea;
+    --red: #e63946;
+    --red-dark: #b71c1c;
+    --red-deep: #8b0000;
+    --choco: #3d1a08;
+    --choco-mid: #5d2f0f;
+    --choco-light: #8b4513;
+    --yellow: #ffd54f;
+    --mint: #81c784;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    width: 100%; height: 100%; overflow: hidden;
+    font-family: 'Nunito', sans-serif;
+    user-select: none; -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  body { background: var(--pink-pale); position: relative; }
+
+  .sunburst {
+    position: fixed; inset: -20%;
+    background: repeating-conic-gradient(
+      from 0deg at 50% 40%,
+      #ff4d6d 0deg 7deg,
+      #ff8fa3 7deg 14deg
+    );
+    animation: spin 80s linear infinite;
+    z-index: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .vignette {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.3) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #app {
+    position: relative; z-index: 2;
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px;
+  }
+
+  .screen {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 16px 14px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .45s ease;
+    overflow-y: auto;
+  }
+  .screen.active { opacity: 1; pointer-events: auto; }
+
+  .box {
+    width: min(92vw, 400px);
+    background: linear-gradient(180deg, #c62828 0%, #e63946 100%);
+    border-radius: 18px;
+    box-shadow: 0 0 0 4px #fff, 0 0 0 8px #c62828,
+                0 18px 40px rgba(0,0,0,0.35),
+                inset 0 0 30px rgba(0,0,0,0.2);
+    padding: 18px 16px 20px;
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50% { transform: translateY(-8px) rotate(1deg); }
+  }
+
+  .Kara-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    color: #fff;
+    font-family: 'Fredoka', sans-serif; font-weight: 600;
+    font-size: 11px; letter-spacing: 1px;
+    margin-bottom: 4px;
+    text-shadow: 1px 1px 0 #8b0000;
+  }
+  .Kara-bar .brand { font-size: 14px; letter-spacing: 2px; }
+
+  .logo-badge {
+    background: #fff;
+    border-radius: 50px;
+    padding: 4px 18px;
+    display: inline-block;
+    box-shadow: 0 3px 0 #8b0000, 0 6px 12px rgba(0,0,0,0.2);
+    transform: rotate(-3deg);
+    margin: 4px 0;
+  }
+  .logo-badge .popin {
+    font-family: 'Chewy', cursive;
+    font-size: 22px;
+    background: linear-gradient(180deg, #ff5252 0%, #c62828 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+  }
+
+  .title-jp {
+    font-family: 'Chewy', cursive;
+    font-size: clamp(34px, 10vw, 52px);
+    color: #fff; text-align: center; line-height: 1;
+    margin: 4px 0 8px;
+    text-shadow:
+      -2px -2px 0 #8b0000, 2px -2px 0 #8b0000,
+      -2px 2px 0 #8b0000, 2px 2px 0 #8b0000,
+      4px 4px 0 #5d0000, 6px 6px 15px rgba(0,0,0,0.4);
+    transform: rotate(-2deg);
+    letter-spacing: 2px;
+  }
+  .title-jp .exclaim { color: #ffd54f; }
+
+  .for-kara {
+    background: #fff;
+    color: var(--red);
+    font-family: 'Chewy', cursive;
+    font-size: 15px;
+    padding: 5px 18px;
+    border-radius: 30px;
+    display: inline-block;
+    transform: rotate(3deg);
+    box-shadow: 0 2px 0 #8b0000;
+    margin-bottom: 6px;
+  }
+
+  .display-plate {
+    background: linear-gradient(180deg, var(--cream) 0%, #ffe4ec 100%);
+    border-radius: 14px;
+    padding: 18px 14px 14px;
+    margin-top: 8px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+    min-height: 130px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 6px; flex-wrap: wrap;
+  }
+  .display-plate .candy {
+    font-size: 30px;
+    filter: drop-shadow(0 3px 4px rgba(0,0,0,0.2));
+    animation: candyBob 3s ease-in-out infinite;
+  }
+  .display-plate .candy:nth-child(2) { animation-delay: .3s; }
+  .display-plate .candy:nth-child(3) { animation-delay: .6s; }
+  .display-plate .candy:nth-child(4) { animation-delay: .9s; }
+  .display-plate .candy:nth-child(5) { animation-delay: 1.2s; }
+  @keyframes candyBob {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-4px) rotate(5deg); }
+  }
+
+  .info-icons { display: flex; gap: 6px; justify-content: flex-end; margin-top: 8px; }
+  .info-icons .chip {
+    background: #fff; border-radius: 6px;
+    padding: 3px 8px; font-size: 10px;
+    font-weight: 800; color: var(--red-dark);
+  }
+
+  .start-btn {
+    margin-top: 16px;
+    background: linear-gradient(180deg, #ffd54f 0%, #ffa000 100%);
+    color: var(--red-dark);
+    font-family: 'Chewy', cursive;
+    font-size: 22px;
+    letter-spacing: 1px;
+    padding: 12px 32px;
+    border: none; border-radius: 60px;
+    box-shadow: 0 0 0 4px #fff, 0 0 0 7px #ff5252,
+                0 8px 0 #b71c1c, 0 14px 22px rgba(0,0,0,0.3);
+    cursor: pointer;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1) rotate(-2deg); }
+    50% { transform: scale(1.06) rotate(2deg); }
+  }
+  .start-btn:active { transform: scale(0.95) translateY(4px); }
+
+  .recipe-card {
+    width: min(92vw, 400px);
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 22px 20px;
+    box-shadow: 0 0 0 4px #fff, 0 0 0 8px var(--red),
+                0 15px 35px rgba(0,0,0,0.3);
+    text-align: center;
+    position: relative;
+  }
+  .recipe-header {
+    font-family: 'Chewy', cursive;
+    font-size: 30px;
+    color: var(--red);
+    text-shadow: 2px 2px 0 #fff, 3px 3px 0 rgba(0,0,0,0.1);
+    margin-bottom: 4px;
+  }
+  .recipe-sub {
+    color: var(--choco-mid);
+    font-weight: 800; font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+  .recipe-list {
+    text-align: left;
+    list-style: none;
+    background: #fff;
+    border: 2px dashed var(--pink-hot);
+    border-radius: 14px;
+    padding: 14px 12px;
+    margin-bottom: 14px;
+  }
+  .recipe-list li {
+    display: flex; align-items: center;
+    font-weight: 800; color: var(--choco);
+    padding: 7px 0;
+    font-size: 15px;
+    border-bottom: 1px dashed #ffb8cc;
+  }
+  .recipe-list li:last-child { border-bottom: none; }
+  .recipe-list .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--pink-hot); color: #fff;
+    font-family: 'Chewy', cursive; font-size: 14px;
+    margin-right: 10px; flex-shrink: 0;
+    box-shadow: 0 2px 0 var(--red-dark);
+  }
+
+  .cook-wrap {
+    width: min(94vw, 420px);
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+
+  .mini-recipe {
+    background: var(--cream);
+    border-radius: 14px;
+    padding: 10px 12px;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--red),
+                0 8px 18px rgba(0,0,0,0.25);
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap;
+  }
+  .mini-recipe .mr-title {
+    font-family: 'Chewy', cursive;
+    color: var(--red); font-size: 14px;
+    flex-shrink: 0;
+  }
+  .mini-recipe .mr-steps {
+    display: flex; gap: 5px; flex: 1;
+  }
+  .mr-steps .mr-step {
+    flex: 1; height: 8px;
+    background: #fff;
+    border: 2px solid var(--pink-hot);
+    border-radius: 4px;
+    overflow: hidden; position: relative;
+  }
+  .mr-steps .mr-step.done {
+    background: var(--mint);
+    border-color: #2e7d32;
+  }
+  .mr-steps .mr-step.current {
+    background: linear-gradient(90deg, var(--yellow) 50%, #fff 50%);
+    background-size: 200% 100%;
+    animation: currentSlide 1.2s linear infinite;
+    border-color: #ff8f00;
+  }
+  @keyframes currentSlide {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+
+  .cook-card {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 18px 16px 16px;
+    box-shadow: 0 0 0 4px #fff, 0 0 0 8px var(--red),
+                0 15px 35px rgba(0,0,0,0.3);
+    text-align: center;
+    position: relative;
+  }
+
+  .step-badge {
+    position: absolute;
+    top: -16px; left: 50%;
+    transform: translateX(-50%) rotate(-4deg);
+    background: var(--yellow);
+    color: var(--red-dark);
+    font-family: 'Chewy', cursive;
+    font-size: 14px;
+    padding: 5px 16px;
+    border-radius: 30px;
+    box-shadow: 0 3px 0 #8b0000, 0 0 0 3px #fff inset;
+    white-space: nowrap;
+    z-index: 5;
+  }
+
+  .step-title {
+    font-family: 'Chewy', cursive;
+    font-size: 24px;
+    color: var(--red);
+    line-height: 1.1;
+    margin: 14px 0 4px;
+    text-shadow: 2px 2px 0 #fff, 3px 3px 0 rgba(0,0,0,0.1);
+  }
+  .step-sub {
+    color: var(--choco-mid);
+    font-weight: 800; font-size: 12px;
+    margin-bottom: 10px; letter-spacing: 0.5px;
+  }
+
+  .stage {
+    background: linear-gradient(180deg, #fff 0%, var(--pink-pale) 100%);
+    border: 3px dashed var(--pink-hot);
+    border-radius: 16px;
+    height: 260px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .tap-hint {
+    color: var(--red);
+    font-weight: 900; font-size: 12px;
+    letter-spacing: 1px;
+    animation: hintBlink 1.4s ease-in-out infinite;
+    margin-top: 4px;
+  }
+  @keyframes hintBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .next-btn {
+    background: linear-gradient(180deg, #ff5e8a 0%, #e63946 100%);
+    color: #fff;
+    font-family: 'Chewy', cursive;
+    font-size: 18px;
+    padding: 10px 28px;
+    border: none; border-radius: 40px;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 5px #e63946,
+                0 6px 0 #8b0000;
+    cursor: pointer; letter-spacing: 1px;
+    animation: appear .4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  }
+  .next-btn:active { transform: translateY(4px); box-shadow: 0 0 0 3px #fff, 0 0 0 5px #e63946, 0 2px 0 #8b0000; }
+  @keyframes appear {
+    0% { opacity: 0; transform: scale(0.5); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .mascot {
+    position: absolute;
+    font-size: 36px;
+    filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
+    animation: mascotHop 1.8s ease-in-out infinite;
+    z-index: 10;
+  }
+  .mascot.tl { top: -10px; left: 4px; transform: rotate(-15deg); }
+  .mascot.tr { top: 0; right: 4px; transform: rotate(15deg); animation-delay: .4s; }
+  @keyframes mascotHop {
+    0%, 100% { transform: translateY(0) rotate(-10deg); }
+    50% { transform: translateY(-8px) rotate(10deg); }
+  }
+
+  .stage-svg { width: 100%; height: 100%; display: block; }
+
+  /* Interactive tool elements - cursor + tap-friendly */
+  #pouch, #spoon, #bottle { cursor: pointer; }
+
+  .liquid-stream {
+    opacity: 0;
+    transform-origin: 50% 0;
+    transform: scaleY(0);
+  }
+  .liquid-stream.flowing {
+    opacity: 1;
+    transform: scaleY(1);
+    transition: transform 0.3s ease-out, opacity 0.2s;
+    animation: streamShimmer 0.4s linear infinite;
+  }
+  @keyframes streamShimmer {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.15); }
+  }
+
+  .wave-surface { animation: waveMove 2s linear infinite; }
+  @keyframes waveMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-40px); }
+  }
+
+  .choco-swirl {
+    opacity: 0;
+    transform: scale(0);
+    animation: swirlIn 0.8s ease-out forwards;
+    transform-origin: center;
+  }
+  @keyframes swirlIn {
+    0% { opacity: 0; transform: scale(0); }
+    100% { opacity: 0.85; transform: scale(1); }
+  }
+
+  .liquid-swirling {
+    animation: swirlRotate 3s linear infinite;
+    transform-origin: 200px 150px;
+  }
+  @keyframes swirlRotate { to { transform: rotate(360deg); } }
+
+  .heart-mold-fill { transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+
+  .finished-heart {
+    animation: heartFloat 2.5s ease-in-out infinite;
+    transform-origin: center;
+  }
+  @keyframes heartFloat {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-8px) rotate(3deg); }
+  }
+
+  .final-showcase {
+    width: min(92vw, 400px);
+    background: radial-gradient(ellipse at center, #fff 0%, var(--pink-pale) 70%);
+    border-radius: 22px;
+    padding: 24px 20px;
+    box-shadow: 0 0 0 4px #fff, 0 0 0 8px var(--yellow),
+                0 0 0 12px #fff, 0 0 0 16px var(--red),
+                0 20px 50px rgba(0,0,0,0.35);
+    text-align: center; position: relative;
+    overflow: hidden;
+  }
+
+  .masterpiece-title {
+    font-family: 'Chewy', cursive;
+    font-size: clamp(28px, 8vw, 38px);
+    color: #fff; line-height: 1;
+    text-shadow:
+      -2px -2px 0 var(--red), 2px -2px 0 var(--red),
+      -2px 2px 0 var(--red), 2px 2px 0 var(--red),
+      4px 4px 0 var(--red-deep);
+    animation: wobble 2s ease-in-out infinite;
+    margin-bottom: 8px;
+  }
+  @keyframes wobble {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  .showcase-sub {
+    font-weight: 900;
+    color: var(--choco-mid);
+    font-size: 12px; letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+
+  .showcase-stage {
+    width: 100%; height: 220px;
+    background: radial-gradient(ellipse at 50% 80%, #ffd54f 0%, transparent 50%),
+                linear-gradient(180deg, #fff 0%, var(--pink-pale) 100%);
+    border-radius: 16px;
+    position: relative; overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(255, 200, 150, 0.3);
+  }
+
+  .serve-btn {
+    margin-top: 14px;
+    background: linear-gradient(180deg, #4fd46c 0%, #2e7d32 100%);
+    color: #fff;
+    font-family: 'Chewy', cursive;
+    font-size: 22px; padding: 12px 34px;
+    border: none; border-radius: 50px;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 6px #2e7d32,
+                0 7px 0 #1b5e20, 0 12px 18px rgba(0,0,0,0.3);
+    cursor: pointer; letter-spacing: 1px;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  .serve-btn:active { transform: scale(0.95) translateY(4px); }
+
+  .reveal-card {
+    width: min(94vw, 440px);
+    background: linear-gradient(180deg, #fff 0%, #ffe4ec 100%);
+    border-radius: 22px;
+    padding: 28px 20px 24px;
+    box-shadow: 0 0 0 5px #fff, 0 0 0 10px var(--red),
+                0 0 0 14px #fff, 0 0 0 18px var(--yellow),
+                0 20px 50px rgba(0,0,0,0.4);
+    text-align: center; position: relative;
+    animation: revealPop 1s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  }
+  @keyframes revealPop {
+    0% { opacity: 0; transform: scale(0.3) rotate(-15deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
+  }
+  .reveal-logo {
+    font-family: 'Chewy', cursive;
+    font-size: clamp(40px, 11vw, 58px);
+    color: #fff; line-height: 1;
+    margin-bottom: 8px;
+    text-shadow:
+      -3px -3px 0 var(--red), 3px -3px 0 var(--red),
+      -3px 3px 0 var(--red), 3px 3px 0 var(--red),
+      6px 6px 0 var(--red-deep), 8px 8px 20px rgba(0,0,0,0.3);
+    letter-spacing: 2px;
+    animation: wobble 2s ease-in-out infinite;
+  }
+  .reveal-hearts { font-size: 26px; margin-bottom: 10px; }
+  .final-plate {
+    margin: 4px 0 14px;
+    font-size: 38px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+    letter-spacing: 4px;
+  }
+  .reveal-question {
+    font-family: 'Chewy', cursive;
+    font-size: clamp(22px, 6vw, 30px);
+    color: var(--red-dark);
+    line-height: 1.2;
+    margin: 10px 0 4px;
+  }
+  .reveal-name {
+    font-family: 'Chewy', cursive;
+    font-size: clamp(44px, 12vw, 60px);
+    background: linear-gradient(135deg, #ff5e8a 0%, #c62828 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px; display: inline-block;
+  }
+  .reveal-name::after { content: ' ? '; color: var(--red); -webkit-text-fill-color: var(--red); }
+  .from-note {
+    color: var(--choco-mid);
+    font-weight: 900;
+    font-size: 12px;
+    margin: -4px 0 14px;
+    letter-spacing: 1px;
+  }
+
+  .answer-buttons {
+    position: relative;
+    display: flex; gap: 14px; justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .yes-btn {
+    background: linear-gradient(180deg, #4fd46c 0%, #2e7d32 100%);
+    color: #fff;
+    font-family: 'Chewy', cursive;
+    font-size: 26px; padding: 12px 36px;
+    border: none; border-radius: 50px;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 6px #2e7d32,
+                0 8px 0 #1b5e20, 0 14px 20px rgba(0,0,0,0.3);
+    cursor: pointer; letter-spacing: 1px;
+    animation: yesPulse 1.2s ease-in-out infinite;
+  }
+  @keyframes yesPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+  .yes-btn:active { transform: scale(0.95) translateY(4px); }
+
+  .no-btn {
+    background: #bbb; color: #555;
+    font-family: 'Chewy', cursive;
+    font-size: 14px; padding: 8px 16px;
+    border: none; border-radius: 40px;
+    cursor: pointer; position: relative;
+    transition: all .2s ease-out;
+  }
+
+  #yes-screen { display: none; }
+  .celebrate {
+    font-family: 'Chewy', cursive;
+    font-size: clamp(50px, 14vw, 76px);
+    color: #fff; line-height: 1;
+    text-align: center;
+    text-shadow:
+      -3px -3px 0 var(--red), 3px -3px 0 var(--red),
+      -3px 3px 0 var(--red), 3px 3px 0 var(--red),
+      6px 6px 0 var(--red-deep);
+    animation: celebrateBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes celebrateBounce {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .celebrate-sub {
+    color: var(--red-dark);
+    font-family: 'Chewy', cursive;
+    font-size: clamp(20px, 5.5vw, 28px);
+    margin-top: 16px; text-align: center;
+  }
+
+  .confetti {
+    position: fixed; top: -20px;
+    font-size: 24px; pointer-events: none;
+    z-index: 100;
+    animation: confettiFall 3s linear forwards;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0.8; }
+  }
+
+  .back-btn {
+    position: fixed; top: 12px; left: 12px;
+    background: rgba(255,255,255,0.92);
+    border: 2px solid var(--red);
+    border-radius: 30px;
+    padding: 5px 12px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900; font-size: 11px;
+    color: var(--red-dark);
+    cursor: pointer; z-index: 50;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    display: none;
+  }
+  .back-btn.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="sunburst"></div>
+<div class="vignette"></div>
+
+<div class="back-btn" id="backBtn" onclick="restart()">↺ restart</div>
+
+<div id="app">
+
+  <!-- TITLE -->
+  <div id="title" class="screen active">
+    <div class="box">
+      <div class="Kara-bar">
+        <span class="brand">Kara</span>
+        <span>🍓 SWEET EDITION</span>
+      </div>
+      <div style="text-align:center;">
+        <div class="logo-badge"><span class="popin">Popin' Cookin'</span></div>
+        <div class="title-jp">PROM<br>COOKIN'<span class="exclaim">!</span></div>
+        <div class="for-kara">💕 FOR KARA 💕</div>
+      </div>
+      <div class="display-plate">
+        <span class="candy">🍫</span>
+        <span class="candy">🧁</span>
+        <span class="candy">❤️</span>
+        <span class="candy">🍓</span>
+        <span class="candy">🍬</span>
+      </div>
+      <div class="info-icons">
+        <span class="chip">⏱ 2 MIN</span>
+        <span class="chip">💕 x1</span>
+        <span class="chip">★★★★☆</span>
+      </div>
+    </div>
+    <button class="start-btn" onclick="go('recipe')">TAP TO START ▶</button>
+  </div>
+
+  <!-- RECIPE PREVIEW -->
+  <div id="recipe" class="screen">
+    <div class="recipe-card">
+      <div class="recipe-header">📖 THE RECIPE</div>
+      <div class="recipe-sub">PROM COOKIN' — FOR KARA</div>
+      <ul class="recipe-list">
+        <li><span class="step-num">1</span>Pour the strawberry base</li>
+        <li><span class="step-num">2</span>Mix until smooth</li>
+        <li><span class="step-num">3</span>Drizzle chocolate swirl</li>
+        <li><span class="step-num">4</span>Fill the heart molds</li>
+        <li><span class="step-num">5</span>Decorate & set</li>
+      </ul>
+      <button class="next-btn" onclick="startCook()">START COOKING 🍳</button>
+    </div>
+  </div>
+
+  <!-- COOKING -->
+  <div id="cook" class="screen">
+    <div class="cook-wrap">
+      <div class="mini-recipe">
+        <span class="mr-title">📖 RECIPE</span>
+        <div class="mr-steps">
+          <div class="mr-step"></div>
+          <div class="mr-step"></div>
+          <div class="mr-step"></div>
+          <div class="mr-step"></div>
+          <div class="mr-step"></div>
+        </div>
+      </div>
+
+      <div class="cook-card">
+        <div class="step-badge" id="stepBadge">STEP 1 OF 5</div>
+        <div class="mascot tl" id="mascotL">🥰</div>
+        <div class="mascot tr" id="mascotR">✨</div>
+        <div class="step-title" id="stepTitle">POUR THE BASE</div>
+        <div class="step-sub" id="stepSub">Tap and hold the pouch to pour!</div>
+
+        <div class="stage" id="stage">
+          <svg class="stage-svg" viewBox="0 0 400 260" preserveAspectRatio="xMidYMid meet" id="stageSvg"></svg>
+        </div>
+
+        <div id="stepControls">
+          <div class="tap-hint" id="stepHint">👆 TAP & HOLD!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL PRODUCT -->
+  <div id="final" class="screen">
+    <div class="final-showcase">
+      <div class="masterpiece-title">✨ MASTERPIECE! ✨</div>
+      <div class="showcase-sub">PROM COOKIN' — COMPLETE</div>
+      <div class="showcase-stage">
+        <svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;">
+          <defs>
+            <radialGradient id="hgrad" cx="0.3" cy="0.3" r="0.8">
+              <stop offset="0%" stop-color="#ff8fa3"/>
+              <stop offset="60%" stop-color="#ff3d7f"/>
+              <stop offset="100%" stop-color="#c62828"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="200" cy="195" rx="160" ry="12" fill="rgba(0,0,0,0.15)"/>
+          <ellipse cx="200" cy="185" rx="150" ry="14" fill="#fff"/>
+          <ellipse cx="200" cy="182" rx="140" ry="12" fill="#ffe4ec"/>
+
+          <g class="finished-heart" style="animation-delay:0s;transform-box:fill-box;">
+            <g transform="translate(110 120)">
+              <path d="M 0 -15 C 0 -30, -30 -30, -30 -5 C -30 15, 0 30, 0 40 C 0 30, 30 15, 30 -5 C 30 -30, 0 -30, 0 -15 Z" fill="url(#hgrad)" stroke="#8b0000" stroke-width="2"/>
+              <path d="M -20 -10 Q -10 -5 0 -12 Q 10 -18 20 -8" stroke="#3d1a08" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
+              <ellipse cx="-10" cy="-10" rx="8" ry="5" fill="#fff" opacity="0.55" transform="rotate(-30 -10 -10)"/>
+              <rect x="-5" y="5" width="2" height="6" fill="#ffd54f" transform="rotate(30 -5 5)"/>
+              <rect x="10" y="10" width="2" height="6" fill="#4fc3f7" transform="rotate(-20 10 10)"/>
+              <rect x="-15" y="15" width="2" height="6" fill="#81c784" transform="rotate(50 -15 15)"/>
+            </g>
+          </g>
+
+          <g class="finished-heart" style="animation-delay:0.3s;transform-box:fill-box;">
+            <g transform="translate(200 110)">
+              <path d="M 0 -18 C 0 -35, -35 -35, -35 -5 C -35 20, 0 35, 0 48 C 0 35, 35 20, 35 -5 C 35 -35, 0 -35, 0 -18 Z" fill="url(#hgrad)" stroke="#8b0000" stroke-width="2.5"/>
+              <path d="M -22 -8 Q -12 -3 0 -10 Q 12 -17 22 -5 Q 12 0 0 -6" stroke="#3d1a08" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.9"/>
+              <ellipse cx="-12" cy="-12" rx="10" ry="6" fill="#fff" opacity="0.6" transform="rotate(-30 -12 -12)"/>
+              <circle cx="0" cy="-20" r="4" fill="#e63946"/>
+              <path d="M 0 -24 Q 3 -30 6 -28" stroke="#2e7d32" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <rect x="-8" y="8" width="2" height="7" fill="#ffd54f" transform="rotate(30 -8 8)"/>
+              <rect x="12" y="12" width="2" height="7" fill="#ba68c8" transform="rotate(-20 12 12)"/>
+              <rect x="-18" y="18" width="2" height="7" fill="#4fc3f7" transform="rotate(50 -18 18)"/>
+              <rect x="5" y="20" width="2" height="7" fill="#81c784" transform="rotate(15 5 20)"/>
+            </g>
+          </g>
+
+          <g class="finished-heart" style="animation-delay:0.6s;transform-box:fill-box;">
+            <g transform="translate(290 125)">
+              <path d="M 0 -14 C 0 -28, -28 -28, -28 -5 C -28 13, 0 28, 0 37 C 0 28, 28 13, 28 -5 C 28 -28, 0 -28, 0 -14 Z" fill="url(#hgrad)" stroke="#8b0000" stroke-width="2"/>
+              <path d="M -18 -8 Q -8 -3 0 -10 Q 8 -15 18 -6" stroke="#3d1a08" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.9"/>
+              <ellipse cx="-8" cy="-8" rx="7" ry="4" fill="#fff" opacity="0.55" transform="rotate(-30 -8 -8)"/>
+              <rect x="-5" y="5" width="2" height="6" fill="#ff5e8a" transform="rotate(30 -5 5)"/>
+              <rect x="8" y="10" width="2" height="6" fill="#81c784" transform="rotate(-20 8 10)"/>
+            </g>
+          </g>
+
+          <g fill="#fff">
+            <g transform="translate(80 60)"><path d="M 0 -10 L 2 -2 L 10 0 L 2 2 L 0 10 L -2 2 L -10 0 L -2 -2 Z"><animate attributeName="opacity" values="0;1;0" dur="1.8s" repeatCount="indefinite"/></path></g>
+            <g transform="translate(340 70)"><path d="M 0 -8 L 2 -2 L 8 0 L 2 2 L 0 8 L -2 2 L -8 0 L -2 -2 Z"><animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.5s" repeatCount="indefinite"/></path></g>
+            <g transform="translate(200 40)"><path d="M 0 -12 L 3 -3 L 12 0 L 3 3 L 0 12 L -3 3 L -12 0 L -3 -3 Z"><animate attributeName="opacity" values="0;1;0" dur="2s" begin="0.2s" repeatCount="indefinite"/></path></g>
+            <g transform="translate(50 140)"><path d="M 0 -7 L 2 -2 L 7 0 L 2 2 L 0 7 L -2 2 L -7 0 L -2 -2 Z"><animate attributeName="opacity" values="0;1;0" dur="1.7s" begin="0.7s" repeatCount="indefinite"/></path></g>
+            <g transform="translate(360 160)"><path d="M 0 -9 L 2 -2 L 9 0 L 2 2 L 0 9 L -2 2 L -9 0 L -2 -2 Z"><animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="0.3s" repeatCount="indefinite"/></path></g>
+          </g>
+        </svg>
+      </div>
+      <button class="serve-btn" onclick="revealNow()">SERVE IT UP 💕</button>
+    </div>
+  </div>
+
+  <!-- REVEAL -->
+  <div id="reveal" class="screen">
+    <div class="reveal-card">
+      <div class="reveal-hearts">💕 ✨ 🎀 ✨ 💕</div>
+      <div class="reveal-logo">PROM<br>COOKIN'!</div>
+      <div class="final-plate">🍫❤️🍫❤️🍫</div>
+      <div class="reveal-question">Kara, will you go<br>to prom with...</div>
+      <div class="reveal-name" id="revealName">me</div>
+      <div class="from-note">— Caleb 💕</div>
+      <div class="answer-buttons">
+        <button class="yes-btn" onclick="celebrate()">YES! 💕</button>
+        <button class="no-btn" id="noBtn">no</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- YES -->
+  <div id="yes-screen" class="screen">
+    <div>
+      <div class="celebrate">YESSS!!!<br>💕💕💕</div>
+      <div class="celebrate-sub">you just made my whole year ✨<br>see you at prom, Kara 🎀</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const urlName = new URLSearchParams(location.search).get('name');
+  if (urlName) document.getElementById('revealName').textContent = urlName;
+
+  let currentStep = 0;
+  const STEP_NAMES = [
+    { title: "POUR THE BASE", sub: "Tap & hold the pouch!", hint: "👆 HOLD THE POUCH!", badge: "STEP 1 OF 5" },
+    { title: "MIX IT SMOOTH", sub: "Tap the spoon to stir!", hint: "👆 TAP TO STIR!", badge: "STEP 2 OF 5" },
+    { title: "DRIZZLE CHOCOLATE", sub: "Tap the bottle!", hint: "👆 TAP THE BOTTLE!", badge: "STEP 3 OF 5" },
+    { title: "FILL HEART MOLDS", sub: "Tap each heart!", hint: "👆 TAP THE HEARTS!", badge: "STEP 4 OF 5" },
+    { title: "DECORATE & SET", sub: "Tap to sprinkle toppings!", hint: "👆 TAP TO SPRINKLE!", badge: "FINAL STEP!" }
+  ];
+
+  function go(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (id === 'yes-screen') document.getElementById('yes-screen').style.display = 'flex';
+    document.getElementById('backBtn').classList.toggle('show', id !== 'title' && id !== 'yes-screen');
+  }
+
+  function restart() {
+    currentStep = 0;
+    document.querySelectorAll('.mr-step').forEach(s => { s.classList.remove('done', 'current'); });
+    go('title');
+  }
+
+  function startCook() {
+    currentStep = 0;
+    go('cook');
+    renderStep();
+  }
+
+  function updateMiniRecipe() {
+    document.querySelectorAll('.mr-step').forEach((el, idx) => {
+      el.classList.remove('done', 'current');
+      if (idx < currentStep) el.classList.add('done');
+      else if (idx === currentStep) el.classList.add('current');
+    });
+  }
+
+  function renderStep() {
+    const s = STEP_NAMES[currentStep];
+    document.getElementById('stepBadge').textContent = s.badge;
+    document.getElementById('stepTitle').textContent = s.title;
+    document.getElementById('stepSub').textContent = s.sub;
+
+    const ctr = document.getElementById('stepControls');
+    ctr.innerHTML = '<div class="tap-hint" id="stepHint">' + s.hint + '</div>';
+
+    updateMiniRecipe();
+
+    const masL = ['🥰','😋','🤩','💕','✨'];
+    const masR = ['✨','🍫','🎀','💖','🌸'];
+    document.getElementById('mascotL').textContent = masL[currentStep];
+    document.getElementById('mascotR').textContent = masR[currentStep];
+
+    const stepRenderers = [renderPourStage, renderMixStage, renderDrizzleStage, renderMoldStage, renderDecorateStage];
+    stepRenderers[currentStep]();
+  }
+
+  function nextStep() {
+    currentStep++;
+    if (currentStep >= STEP_NAMES.length) {
+      updateMiniRecipe();
+      go('final');
+    } else {
+      renderStep();
+    }
+  }
+
+  function showNextBtn(label, onClick) {
+    label = label || 'NEXT ▶';
+    onClick = onClick || nextStep;
+    const ctr = document.getElementById('stepControls');
+    ctr.innerHTML = '';
+    const btn = document.createElement('button');
+    btn.className = 'next-btn';
+    btn.textContent = label;
+    btn.onclick = onClick;
+    ctr.appendChild(btn);
+  }
+
+  // ========== STAGE 1: POUR ==========
+  function renderPourStage() {
+    const svg = document.getElementById('stageSvg');
+    svg.innerHTML = `
+      <defs>
+        <linearGradient id="liquidGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#ff8fa3"/>
+          <stop offset="100%" stop-color="#ff1493"/>
+        </linearGradient>
+        <clipPath id="bowlClip">
+          <path d="M 110 130 L 110 195 Q 110 225 200 225 Q 290 225 290 195 L 290 130 Z"/>
+        </clipPath>
+      </defs>
+
+      <path d="M 105 125 L 105 195 Q 105 235 200 235 Q 295 235 295 195 L 295 125 Z"
+            fill="#fff" stroke="#e63946" stroke-width="4"/>
+      <ellipse cx="200" cy="130" rx="95" ry="14" fill="#ffe4ec" stroke="#e63946" stroke-width="4"/>
+      <ellipse cx="200" cy="130" rx="85" ry="10" fill="#fff"/>
+
+      <g clip-path="url(#bowlClip)">
+        <rect id="liquidFill" x="105" y="225" width="190" height="0" fill="url(#liquidGrad)"/>
+        <g id="liquidWave" transform="translate(0 225)" style="display:none;">
+          <path class="wave-surface" d="M 60 8 Q 80 0 100 8 T 140 8 T 180 8 T 220 8 T 260 8 T 300 8 T 340 8 L 340 20 L 60 20 Z" fill="url(#liquidGrad)"/>
+        </g>
+      </g>
+
+      <g id="pouch" transform="translate(80 60) rotate(-60)">
+        <path d="M -25 -30 L 25 -30 L 22 30 L -22 30 Z" fill="#ff3d7f" stroke="#8b0000" stroke-width="3"/>
+        <path d="M -20 -28 L 20 -28 L 18 -10 L -18 -10 Z" fill="#fff" opacity="0.3"/>
+        <rect x="-8" y="-35" width="16" height="6" fill="#c62828" stroke="#8b0000" stroke-width="2" rx="2"/>
+        <text x="0" y="5" text-anchor="middle" font-family="Chewy" font-size="12" fill="#fff" font-weight="bold">BASE</text>
+        <polygon points="-18,30 18,30 5,40 -5,40" fill="#c62828" stroke="#8b0000" stroke-width="2"/>
+        <rect x="-30" y="-45" width="60" height="90" fill="transparent"/>
+      </g>
+
+      <rect id="stream" class="liquid-stream" x="115" y="100" width="6" height="30" fill="url(#liquidGrad)" rx="3"/>
+
+      <g id="splashGroup"></g>
+    `;
+
+    let pourLevel = 0;
+    const maxLevel = 70;
+    let pourInterval = null;
+    let wobbleRAF = null;
+    let pouring = false;
+    const wobbleStart = Date.now();
+
+    const pouch = document.getElementById('pouch');
+    const stream = document.getElementById('stream');
+    const fill = document.getElementById('liquidFill');
+    const wave = document.getElementById('liquidWave');
+
+    // JS-driven wobble: directly sets SVG transform attribute (reliable across all browsers/devices)
+    function wobble() {
+      if (!pouring) return;
+      const t = (Date.now() - wobbleStart) / 1000;
+      // Oscillate rotation between approx -95 and -75 (big 20-deg wobble)
+      const angle = -85 + Math.sin(t * 6) * 10;
+      const yBob  = Math.sin(t * 6) * 2;
+      pouch.setAttribute('transform', `translate(80 ${60 + yBob}) rotate(${angle})`);
+      wobbleRAF = requestAnimationFrame(wobble);
+    }
+
+    function startPour(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      if (pourLevel >= maxLevel || pouring) return;
+      pouring = true;
+      stream.classList.add('flowing');
+      wobble();
+      pourInterval = setInterval(() => {
+        pourLevel += 1.5;
+        if (pourLevel >= maxLevel) {
+          pourLevel = maxLevel;
+          stopPour();
+        }
+        updateLiquid();
+      }, 40);
+    }
+    function stopPour() {
+      if (!pouring && pourLevel < maxLevel) {
+        // already stopped, reset tilt
+        pouch.setAttribute('transform', 'translate(80 60) rotate(-60)');
+        return;
+      }
+      pouring = false;
+      stream.classList.remove('flowing');
+      clearInterval(pourInterval);
+      cancelAnimationFrame(wobbleRAF);
+      // Return pouch to resting position
+      pouch.setAttribute('transform', 'translate(80 60) rotate(-60)');
+      if (pourLevel >= maxLevel) {
+        setTimeout(() => showNextBtn(), 500);
+      }
+    }
+
+    function updateLiquid() {
+      const bowlTop = 130, bowlBottom = 225;
+      const height = (pourLevel / 100) * (bowlBottom - bowlTop);
+      fill.setAttribute('height', height);
+      fill.setAttribute('y', bowlBottom - height);
+      if (pourLevel > 2) {
+        wave.style.display = '';
+        wave.setAttribute('transform', 'translate(0 ' + (bowlBottom - height - 4) + ')');
+      }
+      if (Math.random() < 0.5) {
+        const splash = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        splash.setAttribute('cx', 195 + Math.random() * 20);
+        splash.setAttribute('cy', bowlBottom - height - 4);
+        splash.setAttribute('r', 2 + Math.random() * 2);
+        splash.setAttribute('fill', '#ff3d7f');
+        splash.setAttribute('opacity', '0.9');
+        document.getElementById('splashGroup').appendChild(splash);
+        splash.animate([
+          { transform: 'translate(0, 0)', opacity: 0.9 },
+          { transform: 'translate(' + ((Math.random()-0.5)*20) + 'px, -15px)', opacity: 0.9 },
+          { transform: 'translate(' + ((Math.random()-0.5)*30) + 'px, 5px)', opacity: 0 }
+        ], { duration: 500, easing: 'ease-out' });
+        setTimeout(() => splash.remove(), 500);
+      }
+    }
+
+    // Pointer events unify mouse & touch for maximum reliability
+    pouch.addEventListener('pointerdown', startPour);
+    pouch.addEventListener('mousedown', startPour);
+    pouch.addEventListener('touchstart', startPour, { passive: false });
+    document.addEventListener('pointerup', stopPour);
+    document.addEventListener('pointercancel', stopPour);
+    document.addEventListener('mouseup', stopPour);
+    document.addEventListener('touchend', stopPour);
+    document.addEventListener('touchcancel', stopPour);
+  }
+
+  // ========== STAGE 2: MIX ==========
+  function renderMixStage() {
+    const svg = document.getElementById('stageSvg');
+    svg.innerHTML = `
+      <defs>
+        <linearGradient id="liquidGrad2" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#ff8fa3"/>
+          <stop offset="100%" stop-color="#ff1493"/>
+        </linearGradient>
+        <radialGradient id="swirlGrad" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="#ff8fa3"/>
+          <stop offset="50%" stop-color="#ff3d7f"/>
+          <stop offset="100%" stop-color="#c62828"/>
+        </radialGradient>
+        <clipPath id="bowlClip2">
+          <ellipse cx="200" cy="150" rx="92" ry="20"/>
+        </clipPath>
+      </defs>
+
+      <ellipse cx="200" cy="175" rx="110" ry="30" fill="rgba(0,0,0,0.2)"/>
+      <ellipse cx="200" cy="150" rx="100" ry="25" fill="#fff" stroke="#e63946" stroke-width="4"/>
+
+      <g clip-path="url(#bowlClip2)">
+        <ellipse cx="200" cy="150" rx="92" ry="20" fill="url(#liquidGrad2)"/>
+        <g id="swirlGroup" class="liquid-swirling">
+          <ellipse cx="200" cy="150" rx="70" ry="14" fill="url(#swirlGrad)" opacity="0.6"/>
+          <circle cx="230" cy="150" r="6" fill="#fff" opacity="0.5"/>
+          <circle cx="170" cy="145" r="4" fill="#fff" opacity="0.4"/>
+          <circle cx="210" cy="155" r="3" fill="#fff" opacity="0.3"/>
+        </g>
+      </g>
+
+      <ellipse cx="200" cy="145" rx="95" ry="18" fill="none" stroke="#fff" stroke-width="3" opacity="0.7"/>
+
+      <g id="spoon" transform="translate(250 80) rotate(-30)">
+        <rect x="-3" y="0" width="6" height="75" fill="#d7a86e" stroke="#5d2f0f" stroke-width="2" rx="2"/>
+        <ellipse cx="0" cy="80" rx="16" ry="10" fill="#e8c598" stroke="#5d2f0f" stroke-width="2"/>
+        <ellipse cx="-3" cy="77" rx="8" ry="4" fill="#fff" opacity="0.4"/>
+        <rect x="-20" y="-10" width="40" height="100" fill="transparent"/>
+      </g>
+
+      <g id="bubbleGroup"></g>
+    `;
+
+    let stirCount = 0;
+    const maxStirs = 5;
+    let stirring = false;
+    let stirRAF = null;
+    const spoon = document.getElementById('spoon');
+
+    function stirAnim(start) {
+      if (!stirring) return;
+      const elapsed = (Date.now() - start) / 1000;
+      const prog = elapsed / 1.2; // one full stir = 1.2s
+      if (prog >= 1) {
+        // finished one stir
+        stirring = false;
+        spoon.setAttribute('transform', 'translate(250 80) rotate(-30)');
+        if (stirCount >= maxStirs) showNextBtn();
+        return;
+      }
+      // circular stirring motion
+      const angle = Math.sin(prog * Math.PI * 2) * 30 - 30 + 30 * Math.sin(prog * Math.PI * 2);
+      const rot = -30 + Math.sin(prog * Math.PI * 2) * 60;
+      const x = 250 + Math.cos(prog * Math.PI * 2) * 12;
+      const y = 80 + Math.sin(prog * Math.PI * 2) * 4;
+      spoon.setAttribute('transform', `translate(${x} ${y}) rotate(${rot})`);
+      stirRAF = requestAnimationFrame(() => stirAnim(start));
+    }
+
+    function onStir(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      if (stirCount >= maxStirs || stirring) return;
+      stirCount++;
+      stirring = true;
+      stirAnim(Date.now());
+
+      // Bubbles
+      for (let i = 0; i < 5; i++) {
+        const b = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        b.setAttribute('cx', 170 + Math.random() * 60);
+        b.setAttribute('cy', 150);
+        b.setAttribute('r', 2 + Math.random() * 3);
+        b.setAttribute('fill', '#fff');
+        b.setAttribute('opacity', '0.8');
+        document.getElementById('bubbleGroup').appendChild(b);
+        b.animate([
+          { transform: 'translate(0,0) scale(1)', opacity: 0.8 },
+          { transform: 'translate(' + ((Math.random()-0.5)*20) + 'px, -20px) scale(1.5)', opacity: 0 }
+        ], { duration: 800, easing: 'ease-out' });
+        setTimeout(() => b.remove(), 800);
+      }
+    }
+
+    spoon.addEventListener('pointerdown', onStir);
+    spoon.addEventListener('click', onStir);
+    spoon.addEventListener('touchstart', onStir, { passive: false });
+  }
+
+  // ========== STAGE 3: DRIZZLE ==========
+  function renderDrizzleStage() {
+    const svg = document.getElementById('stageSvg');
+    svg.innerHTML = `
+      <defs>
+        <linearGradient id="liquidGrad3" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#ff8fa3"/>
+          <stop offset="100%" stop-color="#ff1493"/>
+        </linearGradient>
+        <radialGradient id="chocoGrad" cx="0.5" cy="0.3" r="0.6">
+          <stop offset="0%" stop-color="#8b4513"/>
+          <stop offset="100%" stop-color="#3d1a08"/>
+        </radialGradient>
+        <clipPath id="bowlClip3">
+          <ellipse cx="200" cy="165" rx="92" ry="20"/>
+        </clipPath>
+      </defs>
+
+      <ellipse cx="200" cy="190" rx="110" ry="30" fill="rgba(0,0,0,0.2)"/>
+      <ellipse cx="200" cy="165" rx="100" ry="25" fill="#fff" stroke="#e63946" stroke-width="4"/>
+
+      <g clip-path="url(#bowlClip3)">
+        <ellipse cx="200" cy="165" rx="92" ry="20" fill="url(#liquidGrad3)"/>
+        <g id="chocoSwirls"></g>
+      </g>
+      <ellipse cx="200" cy="160" rx="95" ry="18" fill="none" stroke="#fff" stroke-width="3" opacity="0.7"/>
+
+      <g id="bottle" transform="translate(150 70) rotate(-10)">
+        <path d="M -18 -20 L 18 -20 L 15 40 L -15 40 Z" fill="#5d2f0f" stroke="#2d1000" stroke-width="2"/>
+        <rect x="-15" y="-18" width="30" height="25" fill="#8b4513" opacity="0.5"/>
+        <rect x="-8" y="-30" width="16" height="12" fill="#5d2f0f" stroke="#2d1000" stroke-width="2"/>
+        <rect x="-10" y="-36" width="20" height="8" fill="#3d1a08" stroke="#2d1000" stroke-width="2" rx="2"/>
+        <text x="0" y="10" text-anchor="middle" font-family="Chewy" font-size="11" fill="#fff" font-weight="bold">CHOCO</text>
+        <ellipse cx="-10" cy="-10" rx="4" ry="10" fill="#fff" opacity="0.3"/>
+        <rect x="-22" y="-40" width="44" height="90" fill="transparent"/>
+      </g>
+
+      <g id="dripGroup"></g>
+    `;
+
+    let dripCount = 0;
+    const maxDrips = 4;
+    let tilting = false;
+    let tiltRAF = null;
+    const bottle = document.getElementById('bottle');
+
+    function tiltAnim(start) {
+      if (!tilting) return;
+      const elapsed = (Date.now() - start) / 1000;
+      const prog = elapsed / 0.9;
+      if (prog >= 1) {
+        tilting = false;
+        bottle.setAttribute('transform', 'translate(150 70) rotate(-10)');
+        return;
+      }
+      // Tilt from -10 out to -45 and back
+      const rot = -10 - Math.sin(prog * Math.PI) * 35;
+      bottle.setAttribute('transform', `translate(150 70) rotate(${rot})`);
+      tiltRAF = requestAnimationFrame(() => tiltAnim(start));
+    }
+
+    function onDrizzle(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      if (dripCount >= maxDrips || tilting) return;
+      dripCount++;
+      tilting = true;
+      tiltAnim(Date.now());
+
+      const dripGroup = document.getElementById('dripGroup');
+      for (let i = 0; i < 3; i++) {
+        setTimeout(() => {
+          const drip = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+          const x = 150 + (Math.random() - 0.5) * 20;
+          drip.setAttribute('cx', x);
+          drip.setAttribute('cy', 95);
+          drip.setAttribute('rx', '3');
+          drip.setAttribute('ry', '5');
+          drip.setAttribute('fill', '#3d1a08');
+          dripGroup.appendChild(drip);
+          drip.animate([
+            { transform: 'translate(0, 0)', opacity: 1 },
+            { transform: 'translate(0, 70px)', opacity: 1 },
+            { transform: 'translate(0, 70px)', opacity: 0 }
+          ], { duration: 900, easing: 'ease-in' });
+          setTimeout(() => drip.remove(), 900);
+        }, i * 80);
+      }
+
+      setTimeout(() => {
+        const swirl = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        swirl.setAttribute('class', 'choco-swirl');
+        const cx = 150 + (dripCount - 1) * 35;
+        const cy = 160 + Math.random() * 10;
+        swirl.innerHTML =
+          '<ellipse cx="' + cx + '" cy="' + cy + '" rx="18" ry="6" fill="url(#chocoGrad)"/>' +
+          '<path d="M ' + (cx-15) + ' ' + cy + ' Q ' + (cx-5) + ' ' + (cy-4) + ' ' + (cx+5) + ' ' + cy +
+          ' Q ' + (cx+12) + ' ' + (cy+3) + ' ' + (cx+18) + ' ' + (cy-2) +
+          '" stroke="#3d1a08" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+        document.getElementById('chocoSwirls').appendChild(swirl);
+      }, 700);
+
+      if (dripCount >= maxDrips) {
+        setTimeout(() => showNextBtn(), 1200);
+      }
+    }
+
+    bottle.addEventListener('pointerdown', onDrizzle);
+    bottle.addEventListener('click', onDrizzle);
+    bottle.addEventListener('touchstart', onDrizzle, { passive: false });
+  }
+
+  // ========== STAGE 4: HEART MOLDS ==========
+  function renderMoldStage() {
+    const svg = document.getElementById('stageSvg');
+    svg.innerHTML = `
+      <defs>
+        <linearGradient id="moldLiquid" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#ff8fa3"/>
+          <stop offset="70%" stop-color="#ff3d7f"/>
+          <stop offset="100%" stop-color="#c62828"/>
+        </linearGradient>
+        <clipPath id="heart0clip"><path d="M 70 80 C 70 60, 40 60, 40 85 C 40 110, 70 125, 70 135 C 70 125, 100 110, 100 85 C 100 60, 70 60, 70 80 Z"/></clipPath>
+        <clipPath id="heart1clip"><path d="M 160 80 C 160 60, 130 60, 130 85 C 130 110, 160 125, 160 135 C 160 125, 190 110, 190 85 C 190 60, 160 60, 160 80 Z"/></clipPath>
+        <clipPath id="heart2clip"><path d="M 250 80 C 250 60, 220 60, 220 85 C 220 110, 250 125, 250 135 C 250 125, 280 110, 280 85 C 280 60, 250 60, 250 80 Z"/></clipPath>
+        <clipPath id="heart3clip"><path d="M 340 80 C 340 60, 310 60, 310 85 C 310 110, 340 125, 340 135 C 340 125, 370 110, 370 85 C 370 60, 340 60, 340 80 Z"/></clipPath>
+      </defs>
+
+      <rect x="20" y="40" width="360" height="180" rx="16" fill="#fff" stroke="#e63946" stroke-width="4"/>
+      <rect x="28" y="48" width="344" height="164" rx="12" fill="#ffe4ec"/>
+
+      <g fill="#fff" stroke="#c62828" stroke-width="3" stroke-dasharray="4 3">
+        <path d="M 70 80 C 70 60, 40 60, 40 85 C 40 110, 70 125, 70 135 C 70 125, 100 110, 100 85 C 100 60, 70 60, 70 80 Z"/>
+        <path d="M 160 80 C 160 60, 130 60, 130 85 C 130 110, 160 125, 160 135 C 160 125, 190 110, 190 85 C 190 60, 160 60, 160 80 Z"/>
+        <path d="M 250 80 C 250 60, 220 60, 220 85 C 220 110, 250 125, 250 135 C 250 125, 280 110, 280 85 C 280 60, 250 60, 250 80 Z"/>
+        <path d="M 340 80 C 340 60, 310 60, 310 85 C 310 110, 340 125, 340 135 C 340 125, 370 110, 370 85 C 370 60, 340 60, 340 80 Z"/>
+      </g>
+
+      <g clip-path="url(#heart0clip)">
+        <rect class="heart-mold-fill" x="40" y="135" width="60" height="0" fill="url(#moldLiquid)" data-fill="0"/>
+      </g>
+      <g clip-path="url(#heart1clip)">
+        <rect class="heart-mold-fill" x="130" y="135" width="60" height="0" fill="url(#moldLiquid)" data-fill="1"/>
+      </g>
+      <g clip-path="url(#heart2clip)">
+        <rect class="heart-mold-fill" x="220" y="135" width="60" height="0" fill="url(#moldLiquid)" data-fill="2"/>
+      </g>
+      <g clip-path="url(#heart3clip)">
+        <rect class="heart-mold-fill" x="310" y="135" width="60" height="0" fill="url(#moldLiquid)" data-fill="3"/>
+      </g>
+
+      <path d="M 70 80 C 70 60, 40 60, 40 85 C 40 110, 70 125, 70 135 C 70 125, 100 110, 100 85 C 100 60, 70 60, 70 80 Z" fill="transparent" data-tap="0" style="cursor:pointer"/>
+      <path d="M 160 80 C 160 60, 130 60, 130 85 C 130 110, 160 125, 160 135 C 160 125, 190 110, 190 85 C 190 60, 160 60, 160 80 Z" fill="transparent" data-tap="1" style="cursor:pointer"/>
+      <path d="M 250 80 C 250 60, 220 60, 220 85 C 220 110, 250 125, 250 135 C 250 125, 280 110, 280 85 C 280 60, 250 60, 250 80 Z" fill="transparent" data-tap="2" style="cursor:pointer"/>
+      <path d="M 340 80 C 340 60, 310 60, 310 85 C 310 110, 340 125, 340 135 C 340 125, 370 110, 370 85 C 370 60, 340 60, 340 80 Z" fill="transparent" data-tap="3" style="cursor:pointer"/>
+
+      <text x="200" y="185" text-anchor="middle" font-family="Chewy" font-size="14" fill="#c62828">❤️ TAP EACH HEART ❤️</text>
+    `;
+
+    const filled = [false, false, false, false];
+    document.querySelectorAll('[data-tap]').forEach(el => {
+      el.addEventListener('click', () => {
+        const idx = +el.dataset.tap;
+        if (filled[idx]) return;
+        filled[idx] = true;
+        const fill = document.querySelector('[data-fill="' + idx + '"]');
+        fill.setAttribute('height', '60');
+        fill.setAttribute('y', '75');
+        if (filled.every(f => f)) {
+          setTimeout(() => showNextBtn(), 900);
+        }
+      });
+    });
+  }
+
+  // ========== STAGE 5: DECORATE ==========
+  function renderDecorateStage() {
+    const svg = document.getElementById('stageSvg');
+    svg.innerHTML = `
+      <defs>
+        <radialGradient id="heartDone" cx="0.3" cy="0.3" r="0.8">
+          <stop offset="0%" stop-color="#ff8fa3"/>
+          <stop offset="60%" stop-color="#ff3d7f"/>
+          <stop offset="100%" stop-color="#c62828"/>
+        </radialGradient>
+      </defs>
+
+      <rect x="20" y="40" width="360" height="180" rx="16" fill="#fff" stroke="#e63946" stroke-width="4"/>
+      <rect x="28" y="48" width="344" height="164" rx="12" fill="#ffe4ec"/>
+
+      <g>
+        <path d="M 70 80 C 70 60, 40 60, 40 85 C 40 110, 70 125, 70 135 C 70 125, 100 110, 100 85 C 100 60, 70 60, 70 80 Z" fill="url(#heartDone)" stroke="#8b0000" stroke-width="2"/>
+        <ellipse cx="55" cy="78" rx="8" ry="4" fill="#fff" opacity="0.5" transform="rotate(-30 55 78)"/>
+        <path d="M 160 80 C 160 60, 130 60, 130 85 C 130 110, 160 125, 160 135 C 160 125, 190 110, 190 85 C 190 60, 160 60, 160 80 Z" fill="url(#heartDone)" stroke="#8b0000" stroke-width="2"/>
+        <ellipse cx="145" cy="78" rx="8" ry="4" fill="#fff" opacity="0.5" transform="rotate(-30 145 78)"/>
+        <path d="M 250 80 C 250 60, 220 60, 220 85 C 220 110, 250 125, 250 135 C 250 125, 280 110, 280 85 C 280 60, 250 60, 250 80 Z" fill="url(#heartDone)" stroke="#8b0000" stroke-width="2"/>
+        <ellipse cx="235" cy="78" rx="8" ry="4" fill="#fff" opacity="0.5" transform="rotate(-30 235 78)"/>
+        <path d="M 340 80 C 340 60, 310 60, 310 85 C 310 110, 340 125, 340 135 C 340 125, 370 110, 370 85 C 370 60, 340 60, 340 80 Z" fill="url(#heartDone)" stroke="#8b0000" stroke-width="2"/>
+        <ellipse cx="325" cy="78" rx="8" ry="4" fill="#fff" opacity="0.5" transform="rotate(-30 325 78)"/>
+      </g>
+
+      <g id="sprinkleGroup"></g>
+
+      <rect x="20" y="40" width="360" height="180" fill="transparent" id="sprinkleArea" style="cursor:pointer"/>
+
+      <text x="200" y="195" text-anchor="middle" font-family="Chewy" font-size="14" fill="#c62828">👆 TAP TO SPRINKLE</text>
+    `;
+
+    let tapCount = 0;
+    const maxTaps = 4;
+    const colors = ['#ffd54f', '#4fc3f7', '#81c784', '#ba68c8', '#ff5e8a', '#ff8a80'];
+
+    document.getElementById('sprinkleArea').addEventListener('click', () => {
+      if (tapCount >= maxTaps) return;
+      tapCount++;
+      for (let i = 0; i < 20; i++) {
+        const sprinkle = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        const x = 40 + Math.random() * 320;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        sprinkle.setAttribute('x', x);
+        sprinkle.setAttribute('y', 20);
+        sprinkle.setAttribute('width', 2);
+        sprinkle.setAttribute('height', 7);
+        sprinkle.setAttribute('fill', color);
+        sprinkle.setAttribute('rx', '1');
+        sprinkle.setAttribute('transform', 'rotate(' + (Math.random() * 360) + ' ' + x + ' 20)');
+        document.getElementById('sprinkleGroup').appendChild(sprinkle);
+
+        const targetY = 70 + Math.random() * 70;
+        const targetX = x + (Math.random() - 0.5) * 40;
+        sprinkle.animate([
+          { transform: 'translate(0, 0) rotate(0deg)', opacity: 0 },
+          { transform: 'translate(0, 20px) rotate(180deg)', opacity: 1, offset: 0.2 },
+          { transform: 'translate(' + (targetX - x) + 'px, ' + (targetY - 20) + 'px) rotate(720deg)', opacity: 1 }
+        ], { duration: 900 + Math.random() * 300, easing: 'cubic-bezier(0.3, 0.1, 0.5, 1)', fill: 'forwards' });
+      }
+      if (tapCount >= maxTaps) {
+        setTimeout(() => showNextBtn('FINISH ✨', () => {
+          currentStep++;
+          updateMiniRecipe();
+          go('final');
+        }), 1100);
+      }
+    });
+  }
+
+  function revealNow() {
+    go('reveal');
+    burstConfetti(30);
+  }
+
+  const noBtn = document.getElementById('noBtn');
+  let dodgeCount = 0;
+  function dodge(e) {
+    if (e) e.preventDefault();
+    dodgeCount++;
+    const maxX = Math.min(window.innerWidth - 100, 300);
+    const x = (Math.random() - 0.5) * maxX;
+    const y = -(Math.random() * 150 + 20);
+    noBtn.style.position = 'relative';
+    noBtn.style.transform = 'translate(' + x + 'px, ' + y + 'px) rotate(' + ((Math.random() - 0.5) * 40) + 'deg)';
+    if (dodgeCount > 2) noBtn.textContent = "c'mon say yes 🥺";
+    if (dodgeCount > 5) noBtn.textContent = 'pls Kara 💔';
+    if (dodgeCount > 8) noBtn.textContent = '😭';
+  }
+  noBtn.addEventListener('mouseenter', dodge);
+  noBtn.addEventListener('touchstart', dodge, { passive: false });
+  noBtn.addEventListener('click', dodge);
+
+  function celebrate() {
+    document.getElementById('reveal').classList.remove('active');
+    document.getElementById('yes-screen').style.display = 'flex';
+    document.getElementById('yes-screen').classList.add('active');
+    burstConfetti(80);
+    setTimeout(() => burstConfetti(40), 600);
+    setTimeout(() => burstConfetti(40), 1400);
+  }
+
+  const confettiBits = ['💕', '✨', '🎀', '❤️', '🍫', '🌸', '💖', '🍓', '⭐', '💞'];
+  function burstConfetti(n) {
+    for (let i = 0; i < n; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.textContent = confettiBits[Math.floor(Math.random() * confettiBits.length)];
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.animationDuration = (2 + Math.random() * 2) + 's';
+      c.style.animationDelay = (Math.random() * 0.8) + 's';
+      c.style.fontSize = (18 + Math.random() * 18) + 'px';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }
+  }
+</script>
+
+</body>
+</html>
